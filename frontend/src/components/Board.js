@@ -9,7 +9,23 @@ const Board = () => {
 
    useEffect(()=>{
      const canvas = canvasRef.current;
-     
+     const context =canvas.getContext('2d');
+
+     const colors=document.getElementsByClassName('color');
+
+     const current={
+      color:"black"
+     }  
+
+     const onColorUpdate=(e)=>{
+        console.log(e.target.className)
+     }
+
+
+     for(let i=0;i<colors.length;i++){
+        colors[i].addEventListener('click',onColorUpdate,false)
+     }
+
    },[])
 
   return (
