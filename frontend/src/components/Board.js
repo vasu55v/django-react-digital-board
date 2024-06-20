@@ -59,26 +59,63 @@ const Board = () => {
 
      onResize();
 
-     const onMouseDown =(e)=>{
+     const onMousedDown=(e)=>{
           drawing=true
           current.x=e.clientX || e.touches[0].clientX;
           current.Y=e.clientY || e.touches[0].clientY;
      }
-     const onMouseMoe=(e)=>{
-         drawLine(current.x,current.y,e.clientX || e.touches[0].clientX,e.touches[0].clientY,current.color,trues)
-     }
+    //  const onMouseMove=(e)=>{
+    //   if (!drawing) return;
+    //      drawLine(current.x,current.y,e.clientX || e.touches[0].clientX,e.clientY|| e.touches[0].clientY,current.color,true)
+    //      current.x=e.clientX || e.touches[0].clientX; 
+    //      current.y=e.clientY || e.touches[0].clientY;
+    //  }
+     const onMouseMove = (e) => {
+      if (!drawing) return;
+      if (e && (e.clientX || (e.touches && e.touches[0].clientX))) {
+        drawLine(
+          current.x,
+          current.y,
+          e.clientX || e.touches[0].clientX,
+          e.clientY || e.touches[0].clientY,
+          current.color,
+          true
+        );
+        current.x = e.clientX || e.touches[0].clientX;
+        current.y = e.clientY || e.touches[0].clientY;
+      }
+    };
 
+    const onMouseUp = (e) => {
+      if (!drawing) return;
+      drawing = false;
+      if (e && (e.clientX || (e.touches && e.touches[0].clientX))) {
+        drawLine(
+          current.x,
+          current.y,
+          e.clientX || e.touches[0].clientX,
+          e.clientY || e.touches[0].clientY,
+          current.color,
+          true
+        );
+      }
+    };
+
+    
+//     canvas.addEventListener('mouseup', onMouseUp, false);
+// canvas.addEventListener('touchend', onMouseUp, false);
+// canvas.addEventListener('touchcancel', onMouseUp, false);
 
      canvas.addEventListener('mousedown', onMousedDown ,false)
      canvas.addEventListener('mouseup',onMouseUp,false)
-     canvas.addEventListener('mouseout',onMouseOut,false)
-     canvas.addEventListener('mousemove',onMouseUp,false)
+     canvas.addEventListener('mouseout',onMouseUp,false)
+     canvas.addEventListener('mousemove',onMouseMove,false)
 
      
      canvas.addEventListener('touchstart', onMousedDown ,false)
      canvas.addEventListener('touchend',onMouseUp,false)
-     canvas.addEventListener('touchcancel',onMouseOut,false)
-     canvas.addEventListener('touchmove',onMouseUp,false)
+     canvas.addEventListener('touchcancel',onMouseUp,false)
+     canvas.addEventListener('touchmove',onMouseMove,false)
 
 
    },[])
